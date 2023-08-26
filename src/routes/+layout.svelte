@@ -1,7 +1,12 @@
+<script>
+    import { base } from "$app/paths";
+</script>
+
+
 <div class="container">
     <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/projects">My projects</a></li>
+        <li><a href="{base}/">Home</a></li>
+        <li><a href="{base}/projects">My projects</a></li>
     </ul>
     <slot></slot>
 </div>
@@ -15,4 +20,5 @@
     ul li {
         margin: 0 10px;
     }
+
 </style>
