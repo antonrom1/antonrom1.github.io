@@ -24,9 +24,10 @@ Skilled in building complex systems from scratch and adapting to evolving projec
 ### Full Stack Developer, DuckRabbit
 _2022—Present_
 - Developed and architected Maytree-X, a database for cognitive and developmental science, leveraging it as a recommendation engine.
-- Successfully integrated the platform with Odoo, overcoming challenges related to data synchronization and validity.
 - Worked in a small, agile team of 10, with direct collaboration with another IT professional.
-- Orchestrated a versatile e-commerce storefront using Django-Oscar, further enhanced by a custom GraphQL API.
+
+[//]: # (- Successfully integrated the platform with Odoo, overcoming challenges related to data synchronization and validity.)
+[//]: # (- Orchestrated a versatile e-commerce storefront using Django-Oscar, further enhanced by a custom GraphQL API.)
 
 
 ### iOS Developer, Wisdom Treasury
