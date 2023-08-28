@@ -1,11 +1,8 @@
-# Sample workflow for building and deploying with npm
 name: Deploy with GitHub Pages and npm scripts
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [ "main" ]
   workflow_dispatch:
 
 permissions:
@@ -18,7 +15,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
@@ -43,9 +39,6 @@ jobs:
           path: ./build
 
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -59,8 +52,7 @@ jobs:
           path: ./build
 
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          branch: gh-pages
-          dir: ./build
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
