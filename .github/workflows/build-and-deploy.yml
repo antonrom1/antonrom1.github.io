@@ -1,58 +1,24 @@
-name: Deploy with GitHub Pages and npm scripts
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ "main" ]
+    branches: 
+      - master
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Project
-        run: npm run build
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-artifact
-          path: ./build
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: build-artifact
-          path: ./build
-
+      - name: Install and Build
+        run: |
+          npm install
+          npm run build
+          
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          branch: gh-pages
+          folder: build
