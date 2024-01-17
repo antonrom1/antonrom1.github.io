@@ -45,58 +45,58 @@ ${t}</tr>
 `+(r.tokens?this.parseInline(r.tokens):r.text);e+=n?this.renderer.paragraph(l):l;continue}default:{const r='Token with "'+s.type+'" type was not found.';if(this.options.silent)return console.error(r),"";throw new Error(r)}}}return e}parseInline(t,n){n=n||this.renderer;let e="";for(let i=0;i<t.length;i++){const s=t[i];if(this.options.extensions&&this.options.extensions.renderers&&this.options.extensions.renderers[s.type]){const r=this.options.extensions.renderers[s.type].call({parser:this},s);if(r!==!1||!["escape","html","link","image","strong","em","codespan","br","del","text"].includes(s.type)){e+=r||"";continue}}switch(s.type){case"escape":{const r=s;e+=n.text(r.text);break}case"html":{const r=s;e+=n.html(r.text);break}case"link":{const r=s;e+=n.link(r.href,r.title,this.parseInline(r.tokens,n));break}case"image":{const r=s;e+=n.image(r.href,r.title,r.text);break}case"strong":{const r=s;e+=n.strong(this.parseInline(r.tokens,n));break}case"em":{const r=s;e+=n.em(this.parseInline(r.tokens,n));break}case"codespan":{const r=s;e+=n.codespan(r.text);break}case"br":{e+=n.br();break}case"del":{const r=s;e+=n.del(this.parseInline(r.tokens,n));break}case"text":{const r=s;e+=n.text(r.text);break}default:{const r='Token with "'+s.type+'" type was not found.';if(this.options.silent)return console.error(r),"";throw new Error(r)}}}return e}}class R{constructor(t){m(this,"options");this.options=t||S}preprocess(t){return t}postprocess(t){return t}}m(R,"passThroughHooks",new Set(["preprocess","postprocess"]));var I,M,j,le;class Be{constructor(...t){U(this,I);U(this,j);m(this,"defaults",Z());m(this,"options",this.setOptions);m(this,"parse",v(this,I,M).call(this,$.lex,z.parse));m(this,"parseInline",v(this,I,M).call(this,$.lexInline,z.parseInline));m(this,"Parser",z);m(this,"parser",z.parse);m(this,"Renderer",L);m(this,"TextRenderer",O);m(this,"Lexer",$);m(this,"lexer",$.lex);m(this,"Tokenizer",P);m(this,"Slugger",Q);m(this,"Hooks",R);this.use(...t)}walkTokens(t,n){var i,s;let e=[];for(const r of t)switch(e=e.concat(n.call(this,r)),r.type){case"table":{const l=r;for(const o of l.header)e=e.concat(this.walkTokens(o.tokens,n));for(const o of l.rows)for(const p of o)e=e.concat(this.walkTokens(p.tokens,n));break}case"list":{const l=r;e=e.concat(this.walkTokens(l.items,n));break}default:{const l=r;(s=(i=this.defaults.extensions)==null?void 0:i.childTokens)!=null&&s[l.type]?this.defaults.extensions.childTokens[l.type].forEach(o=>{e=e.concat(this.walkTokens(l[o],n))}):l.tokens&&(e=e.concat(this.walkTokens(l.tokens,n)))}}return e}use(...t){const n=this.defaults.extensions||{renderers:{},childTokens:{}};return t.forEach(e=>{const i={...e};if(i.async=this.defaults.async||i.async||!1,e.extensions&&(e.extensions.forEach(s=>{if(!s.name)throw new Error("extension name required");if("renderer"in s){const r=n.renderers[s.name];r?n.renderers[s.name]=function(...l){let o=s.renderer.apply(this,l);return o===!1&&(o=r.apply(this,l)),o}:n.renderers[s.name]=s.renderer}if("tokenizer"in s){if(!s.level||s.level!=="block"&&s.level!=="inline")throw new Error("extension level must be 'block' or 'inline'");const r=n[s.level];r?r.unshift(s.tokenizer):n[s.level]=[s.tokenizer],s.start&&(s.level==="block"?n.startBlock?n.startBlock.push(s.start):n.startBlock=[s.start]:s.level==="inline"&&(n.startInline?n.startInline.push(s.start):n.startInline=[s.start]))}"childTokens"in s&&s.childTokens&&(n.childTokens[s.name]=s.childTokens)}),i.extensions=n),e.renderer){const s=this.defaults.renderer||new L(this.defaults);for(const r in e.renderer){const l=e.renderer[r],o=r,p=s[o];s[o]=(...h)=>{let f=l.apply(s,h);return f===!1&&(f=p.apply(s,h)),f||""}}i.renderer=s}if(e.tokenizer){const s=this.defaults.tokenizer||new P(this.defaults);for(const r in e.tokenizer){const l=e.tokenizer[r],o=r,p=s[o];s[o]=(...h)=>{let f=l.apply(s,h);return f===!1&&(f=p.apply(s,h)),f}}i.tokenizer=s}if(e.hooks){const s=this.defaults.hooks||new R;for(const r in e.hooks){const l=e.hooks[r],o=r,p=s[o];R.passThroughHooks.has(r)?s[o]=h=>{if(this.defaults.async)return Promise.resolve(l.call(s,h)).then(u=>p.call(s,u));const f=l.call(s,h);return p.call(s,f)}:s[o]=(...h)=>{let f=l.apply(s,h);return f===!1&&(f=p.apply(s,h)),f}}i.hooks=s}if(e.walkTokens){const s=this.defaults.walkTokens,r=e.walkTokens;i.walkTokens=function(l){let o=[];return o.push(r.call(this,l)),s&&(o=o.concat(s.call(this,l))),o}}this.defaults={...this.defaults,...i}}),this}setOptions(t){return this.defaults={...this.defaults,...t},this}}I=new WeakSet,M=function(t,n){return(e,i,s)=>{typeof i=="function"&&(s=i,i=null);const r={...i},l={...this.defaults,...r};this.defaults.async===!0&&r.async===!1&&(l.silent||console.warn("marked(): The async option was set to true by an extension. The async: false option sent to parse will be ignored."),l.async=!0);const o=v(this,j,le).call(this,!!l.silent,!!l.async,s);if(typeof e>"u"||e===null)return o(new Error("marked(): input parameter is undefined or null"));if(typeof e!="string")return o(new Error("marked(): input parameter is of type "+Object.prototype.toString.call(e)+", string expected"));if(Pe(l,s),l.hooks&&(l.hooks.options=l),s){const p=s,h=l.highlight;let f;try{l.hooks&&(e=l.hooks.preprocess(e)),f=t(e,l)}catch(b){return o(b)}const u=b=>{let w;if(!b)try{l.walkTokens&&this.walkTokens(f,l.walkTokens),w=n(f,l),l.hooks&&(w=l.hooks.postprocess(w))}catch(_){b=_}return l.highlight=h,b?o(b):p(null,w)};if(!h||h.length<3||(delete l.highlight,!f.length))return u();let d=0;this.walkTokens(f,b=>{b.type==="code"&&(d++,setTimeout(()=>{h(b.text,b.lang,(w,_)=>{if(w)return u(w);_!=null&&_!==b.text&&(b.text=_,b.escaped=!0),d--,d===0&&u()})},0))}),d===0&&u();return}if(l.async)return Promise.resolve(l.hooks?l.hooks.preprocess(e):e).then(p=>t(p,l)).then(p=>l.walkTokens?Promise.all(this.walkTokens(p,l.walkTokens)).then(()=>p):p).then(p=>n(p,l)).then(p=>l.hooks?l.hooks.postprocess(p):p).catch(o);try{l.hooks&&(e=l.hooks.preprocess(e));const p=t(e,l);l.walkTokens&&this.walkTokens(p,l.walkTokens);let h=n(p,l);return l.hooks&&(h=l.hooks.postprocess(h)),h}catch(p){return o(p)}}},j=new WeakSet,le=function(t,n,e){return i=>{if(i.message+=`
 Please report this to https://github.com/markedjs/marked.`,t){const s="<p>An error occurred:</p><pre>"+y(i.message+"",!0)+"</pre>";if(n)return Promise.resolve(s);if(e){e(null,s);return}return s}if(n)return Promise.reject(i);if(e){e(i);return}throw i}};const T=new Be;function k(a,t,n){return T.parse(a,t,n)}k.options=k.setOptions=function(a){return T.setOptions(a),k.defaults=T.defaults,ne(k.defaults),k};k.getDefaults=Z;k.defaults=S;k.use=function(...a){return T.use(...a),k.defaults=T.defaults,ne(k.defaults),k};k.walkTokens=function(a,t){return T.walkTokens(a,t)};k.parseInline=T.parseInline;k.Parser=z;k.parser=z.parse;k.Renderer=L;k.TextRenderer=O;k.Lexer=$;k.lexer=$.lex;k.Tokenizer=P;k.Slugger=Q;k.Hooks=R;k.parse=k;k.options;k.setOptions;k.use;k.walkTokens;k.parseInline;z.parse;$.lex;const qe=`# Anton Romanova
 
-## Skills
+### Skills
 
-#### Cloud Computing
+##### Cloud Computing
 - **Azure** (Beginner): Experience in managing CI/CD processes using GitHub Actions and Azure.
 - **AWS** (Beginner): Practical knowledge gained through personal and academic projects.
 - **NixOS** (Interested): Eager to explore and apply NixOS in future endeavors.
 
-#### Data Management & Databases
+##### Data Management & Databases
 - **PostgreSQL** (Intermediate): Competent in optimizing database performance and management.
 
-#### DevOps
+##### DevOps
 - **Linux Server Administration** (Intermediate): Managed personal servers and provided occasional maintenance for professional projects.
 - **Docker** (Intermediate): Proficient in Docker for containerization and deployment tasks.
 
-#### Programming & Development
+##### Programming & Development
 - **JavaScript** (Intermediate): Experience with front-end development in professional projects.
 - **Python & Django** (Advanced): Advanced proficiency in building and optimizing complex systems, notably Maytree-X.
 
 
-## Contact Details
+### Contact Details
 
 - 📞 **Phone**: +32 470 83 49 93
 - 📧 **Email**: [contact@antonromanova.com](mailto:contact@antonromanova.com)
 - 🌐 **GitHub**: [antonrom1](https://github.com/antonrom1)
 - 💬 **Spoken Languages**: French, English, Russian
 
-## Summary
+### Summary
 
 Software engineer with a focus on backend development and data management. Proficient in constructing complex systems and flexible in adapting to changing project requirements
 
-## Professional Experience
+### Professional Experience
 
-### Full Stack Developer, DuckRabbit
+##### Full Stack Developer, DuckRabbit
 _2022—Present_
 - **Led Development of Maytree-X**: Lead the development of Maytree-X, a bespoke product information management system enriched with psychology-oriented data. Focused on transitioning from unstructured data. Integrated features for anomaly detection, workflow optimization, and a product validation workflows. 
 - **Database Architecture and Programming**: Collaborated on architecting and programming the database model from the ground up, addressing unique data visualization and relationship challenges.
 - **ETL Process Development**: Established an ETL process for data integration between MaytreeX, Odoo, and Saleor e-commerce.
 - **User Story Implementation**: Translating product owner requirements into functional software features, aligning with stakeholder goals and user needs.
 
-### iOS Developer, Wisdom Treasury
+##### iOS Developer, Wisdom Treasury
 _2016—2021_
 - **Early Career Milestone**: Independently developed an iOS prayer tracking app at age 16.
 - **Collaboration with UI/UX Designer**: Worked in conjunction with a UI/UX designer from Wisdom Treasury to implement a design, enhancing the app's user experience.
 - **User Community Impact**: Successfully launched the app, aiding the Buddhist community in tracking prayers and prostrations, achieving over 5,000 downloads.
 - **Technical Proficiency**: Employed standard iOS frameworks and MongoDB for backend development.
 
-### Robotics Coach, nooby.tech
+##### Robotics Coach, nooby.tech
 _2021—2023_
 - Mentored students to build competitive robots.
 - Enhanced problem-solving and communication skills by adapting complex technical concepts into understandable content for a diverse age group.
 
-## Education
+### Education
 
 - **Bachelor in Computer Science, ULB**
     - _Completed in 2023_
